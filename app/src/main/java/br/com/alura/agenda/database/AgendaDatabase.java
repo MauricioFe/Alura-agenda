@@ -7,9 +7,10 @@ import androidx.room.InvalidationTracker;
 import androidx.room.RoomDatabase;
 import androidx.sqlite.db.SupportSQLiteOpenHelper;
 
+import br.com.alura.agenda.database.dao.RoomAlunoDAO;
 import br.com.alura.agenda.model.Aluno;
 
 @Database(entities = {Aluno.class}, version = 1, exportSchema = false)
 public abstract class AgendaDatabase extends RoomDatabase {
-
+    public abstract RoomAlunoDAO getRoomAlunoDAO();
 }
