@@ -3,8 +3,6 @@ package br.com.alura.agenda;
 import android.app.Application;
 
 import androidx.room.Room;
-
-import br.com.alura.agenda.dao.AlunoDAO;
 import br.com.alura.agenda.database.AgendaDatabase;
 import br.com.alura.agenda.database.dao.RoomAlunoDAO;
 import br.com.alura.agenda.model.Aluno;
@@ -20,6 +18,7 @@ public class AgendaApplication extends Application {
 
     private void criaAlunosDeTeste() {
         AgendaDatabase database = Room.databaseBuilder(this, AgendaDatabase.class, "Agenda.db")
+                .allowMainThreadQueries()
                 .build();
         RoomAlunoDAO dao = database.getRoomAlunoDAO();
         dao.salva(new Aluno("Alex", "1122223333", "alex@alura.com.br"));
