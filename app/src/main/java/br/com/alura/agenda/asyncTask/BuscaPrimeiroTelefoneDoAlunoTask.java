@@ -10,12 +10,12 @@ public class BuscaPrimeiroTelefoneDoAlunoTask extends AsyncTask<Void, Void, Tele
 
     private final TelefoneDAO dao;
     private final int alunoId;
-    private final TextView campoTelefone;
+    private final PrimeiroTelefoneEncontradoListener listener;
 
-    public BuscaPrimeiroTelefoneDoAlunoTask(TelefoneDAO dao, int alunoId, TextView telefone) {
+    public BuscaPrimeiroTelefoneDoAlunoTask(TelefoneDAO dao, int alunoId, PrimeiroTelefoneEncontradoListener listener) {
         this.dao = dao;
         this.alunoId = alunoId;
-        this.campoTelefone = telefone;
+        this.listener = listener;
     }
 
 
@@ -28,6 +28,10 @@ public class BuscaPrimeiroTelefoneDoAlunoTask extends AsyncTask<Void, Void, Tele
     @Override
     protected void onPostExecute(Telefone primeiroTelefone) {
         super.onPostExecute(primeiroTelefone);
-        campoTelefone.setText(primeiroTelefone.getNumero());
+        listener.quandoEncontrado(primeiroTelefone);
+    }
+
+    public interface PrimeiroTelefoneEncontradoListener{
+        void quandoEncontrado(Telefone numero);
     }
 }
