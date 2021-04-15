@@ -1,7 +1,5 @@
 package br.com.alura.agenda.asyncTask;
 
-import android.os.AsyncTask;
-
 import java.util.List;
 
 import br.com.alura.agenda.database.dao.AlunoDAO;
@@ -10,24 +8,23 @@ import br.com.alura.agenda.model.Aluno;
 import br.com.alura.agenda.model.Telefone;
 import br.com.alura.agenda.model.TipoTelefone;
 
-public class EditaAlunoTask extends AsyncTask<Void,Void,Void> {
+public class EditaAlunoTask extends BaseAlunoComTelefoneTask {
     private final AlunoDAO alunoDAO;
     private final Telefone telefoneFixo;
     private final Telefone telefoneCelular;
     private final Aluno aluno;
     private final TelefoneDAO telefoneDAO;
     private final List<Telefone> telefonesDoAluno;
-    private final AlunoEditadoListener listener;
 
     public EditaAlunoTask(AlunoDAO alunoDAO, Telefone telefoneFixo, Telefone telefoneCelular, Aluno aluno, TelefoneDAO telefoneDAO,
-                          List<Telefone> telefonesDoAluno, AlunoEditadoListener listener) {
+                          List<Telefone> telefonesDoAluno, FinalizadaListener listener) {
+        super(listener);
         this.alunoDAO = alunoDAO;
         this.telefoneFixo = telefoneFixo;
         this.telefoneCelular = telefoneCelular;
         this.aluno = aluno;
         this.telefoneDAO = telefoneDAO;
         this.telefonesDoAluno = telefonesDoAluno;
-        this.listener = listener;
     }
 
     @Override
@@ -47,23 +44,6 @@ public class EditaAlunoTask extends AsyncTask<Void,Void,Void> {
                 telefoneCelular.setId(telefone.getId());
             }
         }
-    }
-
-    private void vinculaAlunoComTelefone(int alunoId, Telefone... telefones) {
-        for (Telefone telefone : telefones) {
-            telefone.setAlunoId(alunoId);
-        }
-    }
-
-    @Override
-    protected void onPostExecute(Void aVoid) {
-        super.onPostExecute(aVoid);
-        listener.quandoEditar();
-
-    }
-
-    public interface AlunoEditadoListener{
-        void quandoEditar();
     }
 
 }
