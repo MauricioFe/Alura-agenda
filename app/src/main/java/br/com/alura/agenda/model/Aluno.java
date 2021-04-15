@@ -15,7 +15,7 @@ public class Aluno implements Serializable {
     private int id = 0;
     private String nome;
     private String email;
-    private List<Telefone> telefone;
+
     private Calendar momentoDeCadastro = Calendar.getInstance();
 
     public void setNome(String nome) {
