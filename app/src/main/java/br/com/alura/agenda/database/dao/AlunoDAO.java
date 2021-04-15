@@ -13,7 +13,7 @@ import br.com.alura.agenda.model.Aluno;
 @Dao
 public interface AlunoDAO {
     @Insert
-    void salva(Aluno aluno); //O argumento precisa ser uma entidade no room
+    Long salva(Aluno aluno); //O argumento precisa ser uma entidade no room
 
     @Query("SELECT * FROM aluno")
     List<Aluno> todos();

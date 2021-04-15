@@ -20,7 +20,7 @@ import static br.com.alura.agenda.database.AgendaMigrations.TODAS_MIGRATIONS;
 @TypeConverters({ConversorCalendar.class, ConversorTipoTelefone.class})
 public abstract class AgendaDatabase extends RoomDatabase {
     public static final String NOME_BANCO_DE_DADOS = "Agenda.db";
-    public abstract AlunoDAO getRoomAlunoDAO();
+    public abstract AlunoDAO getAlunoDAO();
     public abstract TelefoneDAO getTelefoneDAO();
 
     public static AgendaDatabase getInstance(Context context) {

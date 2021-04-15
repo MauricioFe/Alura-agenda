@@ -21,7 +21,7 @@ public class ListaAlunosView {
         this.context = context;
         this.adapter = new ListaAlunosAdapter(this.context);
         AgendaDatabase database = AgendaDatabase.getInstance(this.context);
-        dao = database.getRoomAlunoDAO();
+        dao = database.getAlunoDAO();
     }
 
     public void confirmaRemocao(final MenuItem item) {
