@@ -8,6 +8,8 @@ import android.widget.EditText;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import java.util.List;
+
 import br.com.alura.agenda.R;
 import br.com.alura.agenda.database.AgendaDatabase;
 import br.com.alura.agenda.database.dao.AlunoDAO;
@@ -29,6 +31,7 @@ public class FormularioAlunoActivity extends AppCompatActivity {
     private AlunoDAO alunoDAO;
     private Aluno aluno;
     private TelefoneDAO telefoneDAO;
+    private List<Telefone> telefonesDoAluno;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -71,15 +74,33 @@ public class FormularioAlunoActivity extends AppCompatActivity {
 
     private void preencheCampos() {
         campoNome.setText(aluno.getNome());
-//        campoTelefoneFixo.setText(aluno.getTelefoneFixo());
-  //      campoTelefoneCelular.setText(aluno.getTelefoneCelular());
         campoEmail.setText(aluno.getEmail());
+        telefonesDoAluno = telefoneDAO.buscaTodosTelefonesDoAluno(aluno.getId());
+        for (Telefone telefone : telefonesDoAluno) {
+            if (telefone.getTipo() == TipoTelefone.FIXO)
+                campoTelefoneFixo.setText(telefone.getNumero());
+            else
+                campoTelefoneCelular.setText(telefone.getNumero());
+        }
     }
 
     private void finalizaFormulario() {
         preencheAluno();
         if (aluno.temIdValido()) {
             alunoDAO.edita(aluno);
+            String numeroFixo = campoTelefoneFixo.getText().toString();
+            Telefone telefoneFixo = new Telefone(numeroFixo, TipoTelefone.FIXO, aluno.getId());
+            String numeroCelular = campoTelefoneCelular.getText().toString();
+            Telefone telefoneCelular = new Telefone(numeroCelular, TipoTelefone.CELULAR, aluno.getId());
+            for (Telefone telefone : telefonesDoAluno) {
+                if (telefone.getTipo() == TipoTelefone.FIXO) {
+                  telefoneFixo.setId(telefone.getId());
+                } else {
+                    numeroCelular = campoTelefoneCelular.getText().toString();
+                    telefoneCelular.setId(telefone.getId());
+                }
+            }
+                telefoneDAO.atualiza(telefoneFixo, telefoneCelular);
         } else {
             int alunoId = alunoDAO.salva(aluno).intValue();
             String numeroFixo = campoTelefoneFixo.getText().toString();
@@ -87,7 +108,6 @@ public class FormularioAlunoActivity extends AppCompatActivity {
             String numeroCelular = campoTelefoneCelular.getText().toString();
             Telefone telefoneCelular = new Telefone(numeroCelular, TipoTelefone.CELULAR, alunoId);
             telefoneDAO.salva(telefoneFixo, telefoneCelular);
-
         }
         finish();
     }
